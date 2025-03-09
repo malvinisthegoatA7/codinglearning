@@ -133,6 +133,20 @@
         #multiplayer:hover {
             background-color: #e64a19;
         }
+
+        .banner {
+            display: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .banner.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -183,7 +197,17 @@
     <div id="rank">Rank: Easy</div>
 
     <div id="multiplayer" onclick="startMultiplayer()">Multiplayer Mode</div>
+    <div class="banner" id="banner">Well Done!</div>
 
+    <div id="superheroSection" class="active-section">
+        <h2 class="superhero-header">Superheroes!</h2>
+        <p class="superhero">Choose your superhero:</p>
+        <div id="superheroes">
+            <button onclick="chooseSuperhero('Iron Man')">Iron Man</button>
+            <button onclick="chooseSuperhero('Spider-Man')">Spider-Man</button>
+            <button onclick="chooseSuperhero('Captain America')">Captain America</button>
+        </div>
+    </div>
 </main>
 
 <footer>
@@ -204,7 +228,7 @@
     // Handle section display
     function showSection(sectionId) {
         // Hide all sections
-        let sections = document.querySelectorAll('.question-section, #signIn');
+        let sections = document.querySelectorAll('.question-section, #signIn, #superheroSection');
         sections.forEach(section => section.classList.remove('active-section'));
 
         // Show the selected section
@@ -235,19 +259,25 @@
                 { question: 'What is 5 + 3?' },
                 { question: 'What is 12 * 4?' },
                 { question: 'What is 15 + 25?' },
-                { question: 'What is 100 / 4?' }
+                { question: 'What is 100 / 4?' },
+                { question: 'What is 9 * 7?' },  // Extra question
+                { question: 'What is 16 / 4?' }   // Extra question
             ],
             geography: [
                 { question: 'What is the capital of France?' },
                 { question: 'Which continent is Australia in?' },
                 { question: 'What is the longest river in the world?' },
-                { question: 'Which country has the largest population?' }
+                { question: 'Which country has the largest population?' },
+                { question: 'Which ocean is the largest?' }, // Extra question
+                { question: 'Which country is Mount Everest located in?' } // Extra question
             ],
             science: [
                 { question: 'What is H2O?' },
                 { question: 'What planet is closest to the Sun?' },
                 { question: 'What is the chemical symbol for gold?' },
-                { question: 'What is the speed of light?' }
+                { question: 'What is the speed of light?' },
+                { question: 'What is the boiling point of water?' },  // Extra question
+                { question: 'What is the largest planet in our solar system?' }  // Extra question
             ]
         };
 
@@ -261,49 +291,56 @@
 
         questions.forEach((question, index) => {
             let userAnswer = document.getElementById(`answer-${subject}-${index}`).value.trim().toLowerCase();
-            if (userAnswer === getCorrectAnswer(subject, index)) {
+            if (userAnswer === question.answer.toLowerCase()) {
                 correctAnswers++;
             }
         });
 
         score += correctAnswers;
-        document.getElementById('score').innerText = `Score: ${score}`;
+        updateRank();
 
-        // Update the rank based on score
-        if (score >= 10) {
+        document.getElementById('score').textContent = `Score: ${score}`;
+        showBanner();
+    }
+
+    // Update player rank based on score
+    function updateRank() {
+        if (score < 10) {
+            playerRank = 'Easy';
+        } else if (score < 20) {
+            playerRank = 'Medium';
+        } else {
             playerRank = 'Hard';
         }
-        if (score >= 20) {
-            playerRank = 'Ultimate';
-        }
-        document.getElementById('rank').innerText = `Rank: ${playerRank}`;
+        document.getElementById('rank').textContent = `Rank: ${playerRank}`;
     }
 
-    // Get the correct answer based on subject and question index
-    function getCorrectAnswer(subject, index) {
-        const answers = {
-            math: ['8', '48', '40', '25'],
-            geography: ['paris', 'australia', 'amazon', 'china'],
-            science: ['water', 'mercury', 'au', '299792458']
-        };
-
-        return answers[subject][index].toLowerCase();
+    // Show banner
+    function showBanner() {
+        let banner = document.getElementById('banner');
+        banner.classList.add('active');
+        setTimeout(() => {
+            banner.classList.remove('active');
+        }, 3000);
     }
 
-    // Handle multiplayer game
+    // Multiplayer mode logic
     function startMultiplayer() {
-        alert("Multiplayer mode coming soon!");
-        // You can add multiplayer logic here
+        // Add multiplayer functionality logic here
+        alert("Multiplayer Mode Coming Soon!");
     }
 
-    // Load questions when the page is ready
-    document.addEventListener('DOMContentLoaded', () => {
-        displayQuestions('math');
-        displayQuestions('geography');
-        displayQuestions('science');
-    });
+    // Superhero choice logic
+    function chooseSuperhero(superhero) {
+        alert(`You have chosen ${superhero}!`);
+    }
+
+    // Initialize on load
+    window.onload = function() {
+        displayQuestions('math');  // Display the math questions by default
+    };
+
 </script>
 
 </body>
 </html>
-
