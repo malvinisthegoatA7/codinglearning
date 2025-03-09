@@ -22,6 +22,7 @@
         nav ul {
             list-style-type: none;
             padding: 0;
+            margin-top: 10px;
         }
 
         nav ul li {
@@ -86,6 +87,9 @@
 
         .question {
             margin-bottom: 15px;
+            background-color: #ffeb3b;
+            padding: 10px;
+            border-radius: 5px;
         }
 
         .question button {
@@ -98,6 +102,36 @@
 
         #score, #rank {
             margin-top: 20px;
+        }
+
+        .difficulty {
+            color: #ff5722;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .superhero-header {
+            color: #ff4081;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .superhero {
+            font-size: 28px;
+            color: #2196f3;
+        }
+
+        #multiplayer {
+            margin-top: 20px;
+            background-color: #ff5722;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #multiplayer:hover {
+            background-color: #e64a19;
         }
     </style>
 </head>
@@ -146,7 +180,10 @@
     </section>
 
     <div id="score">Score: 0</div>
-    <div id="rank">Rank: 1</div>
+    <div id="rank">Rank: Easy</div>
+
+    <div id="multiplayer" onclick="startMultiplayer()">Multiplayer Mode</div>
+
 </main>
 
 <footer>
@@ -155,6 +192,7 @@
 
 <script>
     let score = 0;
+    let playerRank = 'Easy';
 
     // Handle sign-in
     function signIn(event) {
@@ -195,15 +233,21 @@
         const questions = {
             math: [
                 { question: 'What is 5 + 3?' },
-                { question: 'What is 12 * 4?' }
+                { question: 'What is 12 * 4?' },
+                { question: 'What is 15 + 25?' },
+                { question: 'What is 100 / 4?' }
             ],
             geography: [
                 { question: 'What is the capital of France?' },
-                { question: 'Which continent is Australia in?' }
+                { question: 'Which continent is Australia in?' },
+                { question: 'What is the longest river in the world?' },
+                { question: 'Which country has the largest population?' }
             ],
             science: [
                 { question: 'What is H2O?' },
-                { question: 'What planet is closest to the Sun?' }
+                { question: 'What planet is closest to the Sun?' },
+                { question: 'What is the chemical symbol for gold?' },
+                { question: 'What is the speed of light?' }
             ]
         };
 
@@ -224,24 +268,32 @@
 
         score += correctAnswers;
         document.getElementById('score').innerText = `Score: ${score}`;
+
+        // Update the rank based on score
+        if (score >= 10) {
+            playerRank = 'Hard';
+        }
+        if (score >= 20) {
+            playerRank = 'Ultimate';
+        }
+        document.getElementById('rank').innerText = `Rank: ${playerRank}`;
     }
 
     // Get the correct answer based on subject and question index
     function getCorrectAnswer(subject, index) {
         const answers = {
-            math: ['8', '48'],
-            geography: ['paris', 'australia'],
-            science: ['water', 'mercury']
+            math: ['8', '48', '40', '25'],
+            geography: ['paris', 'australia', 'amazon', 'china'],
+            science: ['water', 'mercury', 'au', '299792458']
         };
 
         return answers[subject][index].toLowerCase();
     }
 
-    // Handle sign-out
-    function signOut() {
-        score = 0;
-        document.getElementById('score').innerText = `Score: ${score}`;
-        showSection('signIn');
+    // Handle multiplayer game
+    function startMultiplayer() {
+        alert("Multiplayer mode coming soon!");
+        // You can add multiplayer logic here
     }
 
     // Load questions when the page is ready
@@ -254,3 +306,4 @@
 
 </body>
 </html>
+
