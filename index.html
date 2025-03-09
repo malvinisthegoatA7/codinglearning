@@ -218,7 +218,7 @@
     <div id="multiplayer" onclick="startMultiplayer()">Multiplayer Mode</div>
     <div class="banner" id="banner">Well Done!</div>
 
-    <div id="superheroSection" class="active-section">
+    <div id="superheroSection" class="question-section">
         <h2 class="superhero-header">Superheroes!</h2>
         <p class="superhero">Choose your superhero:</p>
         <div id="superheroes">
@@ -251,6 +251,7 @@
     function signIn(event) {
         event.preventDefault();
         playerName = document.getElementById('username').value;
+        document.getElementById('signIn').style.display = 'none'; // Hide sign-in after success
         showSection('math'); // Show math section after successful sign-in
     }
 
@@ -259,6 +260,7 @@
         let sections = document.querySelectorAll('.question-section, #signIn, #superheroSection');
         sections.forEach(section => section.classList.remove('active-section'));
         document.getElementById(sectionId).classList.add('active-section');
+        displayQuestions(sectionId);  // Show questions when section is activated
     }
 
     // Function to display questions
@@ -282,28 +284,28 @@
     function getQuestions(subject) {
         const questions = {
             math: [
-                { question: 'What is 5 + 3?' },
-                { question: 'What is 12 * 4?' },
-                { question: 'What is 15 + 25?' },
-                { question: 'What is 100 / 4?' },
-                { question: 'What is 9 * 7?' },  // Extra question
-                { question: 'What is 16 / 4?' }   // Extra question
+                { question: 'What is 5 + 3?', answer: '8' },
+                { question: 'What is 12 * 4?', answer: '48' },
+                { question: 'What is 15 + 25?', answer: '40' },
+                { question: 'What is 100 / 4?', answer: '25' },
+                { question: 'What is 9 * 7?', answer: '63' },
+                { question: 'What is 16 / 4?', answer: '4' }
             ],
             geography: [
-                { question: 'What is the capital of France?' },
-                { question: 'Which continent is Australia in?' },
-                { question: 'What is the longest river in the world?' },
-                { question: 'Which country has the largest population?' },
-                { question: 'Which ocean is the largest?' }, // Extra question
-                { question: 'Which country is Mount Everest located in?' } // Extra question
+                { question: 'What is the capital of France?', answer: 'paris' },
+                { question: 'Which continent is Australia in?', answer: 'oceania' },
+                { question: 'What is the longest river in the world?', answer: 'amazon' },
+                { question: 'Which country has the largest population?', answer: 'china' },
+                { question: 'Which ocean is the largest?', answer: 'pacific' },
+                { question: 'Which country is Mount Everest located in?', answer: 'nepal' }
             ],
             science: [
-                { question: 'What is H2O?' },
-                { question: 'What planet is closest to the Sun?' },
-                { question: 'What is the chemical symbol for gold?' },
-                { question: 'What is the speed of light?' },
-                { question: 'What is the boiling point of water?' },  // Extra question
-                { question: 'What is the largest planet in our solar system?' }  // Extra question
+                { question: 'What is H2O?', answer: 'water' },
+                { question: 'What planet is closest to the Sun?', answer: 'mercury' },
+                { question: 'What is the chemical symbol for gold?', answer: 'au' },
+                { question: 'What is the speed of light?', answer: '299792458' },
+                { question: 'What is the boiling point of water?', answer: '100' },
+                { question: 'What is the largest planet in our solar system?', answer: 'jupiter' }
             ]
         };
 
@@ -317,7 +319,7 @@
 
         questions.forEach((question, index) => {
             let userAnswer = document.getElementById(`answer-${subject}-${index}`).value.trim().toLowerCase();
-            if (userAnswer === question.answer?.toLowerCase()) {
+            if (userAnswer === question.answer.toLowerCase()) {
                 correctAnswers++;
             }
         });
@@ -327,10 +329,6 @@
 
         document.getElementById('score').textContent = `Score: ${score}`;
         showBanner();
-
-        if (correctAnswers > 0) {
-            showNextQuestion(subject);  // Show more questions if correct
-        }
     }
 
     // Update player rank based on score
@@ -387,4 +385,5 @@
 
 </body>
 </html>
+
 
