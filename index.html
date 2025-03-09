@@ -110,17 +110,6 @@
             font-weight: bold;
         }
 
-        .superhero-header {
-            color: #ff4081;
-            font-size: 36px;
-            font-weight: bold;
-        }
-
-        .superhero {
-            font-size: 28px;
-            color: #2196f3;
-        }
-
         #multiplayer {
             margin-top: 20px;
             background-color: #ff5722;
@@ -147,6 +136,36 @@
         .banner.active {
             display: block;
         }
+
+        .ai-player {
+            background-color: #2196f3;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .player {
+            background-color: #ff5722;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .superhero-header {
+            color: #ff4081;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .superhero {
+            font-size: 28px;
+            color: #2196f3;
+        }
+
     </style>
 </head>
 <body>
@@ -208,6 +227,12 @@
             <button onclick="chooseSuperhero('Captain America')">Captain America</button>
         </div>
     </div>
+
+    <div id="multiplayerSection" class="question-section">
+        <div class="ai-player" id="aiPlayer">AI Player: Ready</div>
+        <div class="player" id="player">You: Ready</div>
+        <button onclick="startRace()">Start Race!</button>
+    </div>
 </main>
 
 <footer>
@@ -217,21 +242,22 @@
 <script>
     let score = 0;
     let playerRank = 'Easy';
+    let playerName = '';
+    let aiAnswer = '';
+    let playerAnswer = '';
+    let raceInProgress = false;
 
     // Handle sign-in
     function signIn(event) {
         event.preventDefault();
-        // You can add authentication logic here
+        playerName = document.getElementById('username').value;
         showSection('math'); // Show math section after successful sign-in
     }
 
     // Handle section display
     function showSection(sectionId) {
-        // Hide all sections
         let sections = document.querySelectorAll('.question-section, #signIn, #superheroSection');
         sections.forEach(section => section.classList.remove('active-section'));
-
-        // Show the selected section
         document.getElementById(sectionId).classList.add('active-section');
     }
 
@@ -291,7 +317,7 @@
 
         questions.forEach((question, index) => {
             let userAnswer = document.getElementById(`answer-${subject}-${index}`).value.trim().toLowerCase();
-            if (userAnswer === question.answer.toLowerCase()) {
+            if (userAnswer === question.answer?.toLowerCase()) {
                 correctAnswers++;
             }
         });
@@ -301,6 +327,10 @@
 
         document.getElementById('score').textContent = `Score: ${score}`;
         showBanner();
+
+        if (correctAnswers > 0) {
+            showNextQuestion(subject);  // Show more questions if correct
+        }
     }
 
     // Update player rank based on score
@@ -324,10 +354,28 @@
         }, 3000);
     }
 
-    // Multiplayer mode logic
+    // Multiplayer race function
     function startMultiplayer() {
-        // Add multiplayer functionality logic here
-        alert("Multiplayer Mode Coming Soon!");
+        raceInProgress = true;
+        document.getElementById('multiplayerSection').classList.add('active-section');
+        document.getElementById('aiPlayer').textContent = "AI Player: Ready!";
+        document.getElementById('player').textContent = `${playerName}: Ready!`;
+    }
+
+    // Start the race
+    function startRace() {
+        if (raceInProgress) {
+            alert("Race Started! Answer as fast as you can!");
+            // Simulate AI player answering
+            aiAnswer = "10";  // Example static answer for AI
+            playerAnswer = document.getElementById('answer-math-0').value.trim().toLowerCase();
+
+            if (playerAnswer === aiAnswer) {
+                alert("You win! You answered faster!");
+            } else {
+                alert("AI wins this time! Better luck next time.");
+            }
+        }
     }
 
     // Superhero choice logic
@@ -335,12 +383,8 @@
         alert(`You have chosen ${superhero}!`);
     }
 
-    // Initialize on load
-    window.onload = function() {
-        displayQuestions('math');  // Display the math questions by default
-    };
-
 </script>
 
 </body>
 </html>
+
