@@ -3,7 +3,98 @@
 <head>
     <title>Learning Adventure - CodeLearning</title>
     <style>
-        /* ... (CSS styles from the previous example) ... */
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Playful font */
+            background: linear-gradient(135deg, #87CEEB, #98FB98); /* Colorful background */
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FFD700; /* Yellow header */
+            color: #8B4513; /* Brown text */
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white nav */
+            border-radius: 10px;
+            display: inline-block;
+        }
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+        section {
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white sections */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #8B4513;
+        }
+        h2 {
+            color: #8B4513;
+            margin-bottom: 30px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #FF69B4; /* Pink button */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+        #score, #rank {
+            font-size: 1.2em;
+            margin-top: 30px;
+            color: #8B4513;
+        }
+        #signIn {
+            background-color: #ADD8E6; /* Light blue sign-in */
+            color: #8B4513;
+        }
+        #signInForm {
+            display: inline-block;
+            text-align: left;
+        }
+        #signInForm label, #signInForm input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        #signInForm input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+        }
+        #signInForm button {
+            background-color: #9ACD32; /* Light green button */
+        }
+        footer {
+            margin-top: 40px;
+            padding: 20px 0;
+            background-color: #FFD700;
+            color: #8B4513;
+        }
     </style>
 </head>
 <body>
@@ -33,19 +124,19 @@
         </section>
 
         <section id="math" style="display:none;">
-            <h2>Math</h2>
+            <h2>Math Time!</h2>
             <div id="mathQuestions"></div>
             <button onclick="checkAnswers('math')">Check Answers</button>
         </section>
 
         <section id="geography" style="display:none;">
-            <h2>Geography</h2>
+            <h2>Geography Fun!</h2>
             <div id="geographyQuestions"></div>
             <button onclick="checkAnswers('geography')">Check Answers</button>
         </section>
 
         <section id="science" style="display:none;">
-            <h2>Science</h2>
+            <h2>Science Adventures!</h2>
             <div id="scienceQuestions"></div>
             <button onclick="checkAnswers('science')">Check Answers</button>
         </section>
@@ -91,31 +182,3 @@
             {
                 text: "What is the chemical symbol for water?",
                 options: ["H2O", "CO2", "NaCl"],
-                answer: "H2O"
-            },
-            // Add more science questions
-        ];
-
-        var score = 0;
-        var rank = 1;
-        var ranksToday = 0;
-
-        // Function to shuffle array (Fisher-Yates algorithm)
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        // Function to display questions
-        function displayQuestions(subject) {
-            var questions = eval(subject + "Questions");
-            var questionContainer = document.getElementById(subject + "Questions");
-            questionContainer.innerHTML = "";
-
-            // Shuffle questions and options
-            var shuffledQuestions = shuffle(questions);
-            for (var i = 0; i < shuffledQuestions.length; i++) {
-                var question =
